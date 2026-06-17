@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "survey");
+$conn = new mysqli("localhost", "root", "cyruz.gaton9", "survey");
 
 if ($conn->connect_error) {
     die("Database connection failed. Please make sure MySQL is running in XAMPP and the survey database has been imported.");

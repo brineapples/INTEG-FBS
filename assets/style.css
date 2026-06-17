@@ -507,6 +507,197 @@ select.form-control {
   margin-top: 20px;
 }
 
+/* ---- RESPONSE ANALYTICS ---- */
+.responses-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.responses-heading h2 {
+  font-size: 22px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.responses-heading p,
+.responses-intro p {
+  color: var(--neutral-500);
+  font-size: 13px;
+}
+.responses-intro h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.stat-value-sm {
+  font-size: 19px !important;
+  line-height: 1.2 !important;
+}
+.analytics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.analytics-main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.question-analytics {
+  padding: 20px;
+}
+.question-analytics-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.question-analytics-header h3 {
+  font-size: 16px;
+  line-height: 1.4;
+}
+.question-meta {
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.question-count {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius);
+  color: var(--neutral-700);
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 9px;
+}
+.option-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chart-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 220px) minmax(160px, 1fr) 96px;
+  gap: 12px;
+  align-items: center;
+}
+.chart-label {
+  color: var(--neutral-700);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.chart-track {
+  background: var(--neutral-200);
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+.chart-fill {
+  background: var(--primary);
+  height: 100%;
+  min-width: 2px;
+}
+.chart-number {
+  color: var(--neutral-900);
+  font-weight: 800;
+  text-align: right;
+}
+.chart-number span {
+  color: var(--neutral-500);
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 4px;
+}
+.rating-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.rating-average {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+.rating-caption {
+  color: var(--neutral-500);
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+.rating-chart {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  min-height: 190px;
+}
+.rating-column {
+  display: grid;
+  grid-template-rows: 130px auto auto;
+  gap: 6px;
+  text-align: center;
+}
+.rating-bar-wrap {
+  align-items: end;
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+}
+.rating-bar {
+  background: var(--success);
+  min-height: 2px;
+  width: 100%;
+}
+.rating-label {
+  color: var(--neutral-700);
+  font-weight: 800;
+}
+.rating-count {
+  color: var(--neutral-500);
+  font-size: 12px;
+  font-weight: 600;
+}
+.text-answer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.text-answer {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.text-answer p {
+  color: var(--neutral-900);
+  margin-bottom: 8px;
+}
+.text-answer span,
+.question-footnote,
+.empty-inline {
+  color: var(--neutral-500);
+  font-size: 12px;
+}
+.question-footnote {
+  border-top: 1px solid var(--neutral-200);
+  margin-top: 16px;
+  padding-top: 12px;
+}
+.empty-inline {
+  background: var(--neutral-100);
+  border: 1px dashed var(--neutral-300);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
 /* ---- PAGINATION ---- */
 .pagination {
   display: flex;
@@ -835,5 +1026,22 @@ select.form-control {
   }
   .stat-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .responses-heading,
+  .question-analytics-header {
+    flex-direction: column;
+  }
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .chart-number {
+    text-align: left;
+  }
+  .rating-chart {
+    gap: 8px;
   }
 }
