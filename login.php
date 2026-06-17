@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/db.php';
 
 if (isLoggedIn()) {
-    redirect('admin/dashboard.php');
+    redirect(homeUrlForRole(currentRoleId()));
 }
 
 $error = '';
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             logAudit($conn, $user['userId'], 'LOGIN: ' . $user['userName']);
             flashMessage('success', 'Welcome back, ' . $user['userName'] . '!');
-            redirect('/admin/dashboard.php');
+            redirect(homeUrlForRole((int)$user['roleId']));
         }
     }
 }

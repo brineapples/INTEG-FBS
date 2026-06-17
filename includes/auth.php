@@ -17,9 +17,18 @@ function requireLogin(): void {
 function requireAdmin(): void {
     requireLogin();
     if ($_SESSION['roleId'] != 1) {
-        header('Location: ' . appUrl('/login.php?error=unauthorized'));
+        flashMessage('warning', 'You do not have permission to access that page.');
+        header('Location: ' . homeUrlForRole((int)$_SESSION['roleId']));
         exit;
     }
+}
+
+function homeUrlForRole(int $roleId): string {
+    return match ($roleId) {
+        1 => appUrl('/admin/dashboard.php'),
+        2 => appUrl('/user/dashboard.php'),
+        default => appUrl('/login.php'),
+    };
 }
 
 function appBasePath(): string {
@@ -28,6 +37,9 @@ function appBasePath(): string {
 
     if (substr($scriptDir, -6) === '/admin') {
         $scriptDir = substr($scriptDir, 0, -6);
+    }
+    if (substr($scriptDir, -5) === '/user') {
+        $scriptDir = substr($scriptDir, 0, -5);
     }
     if (substr($scriptDir, -7) === '/public') {
         $scriptDir = substr($scriptDir, 0, -7);
@@ -75,7 +87,11 @@ function sanitize(string $input): string {
 }
 
 function redirect(string $url): void {
-    if (substr($url, 0, 1) === '/') {
+    $base = appBasePath();
+
+    if ($base !== '' && ($url === $base || str_starts_with($url, $base . '/'))) {
+        // Already fully qualified for this app.
+    } elseif (substr($url, 0, 1) === '/') {
         $url = appUrl($url);
     }
     header("Location: $url");

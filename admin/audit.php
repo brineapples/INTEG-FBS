@@ -12,7 +12,7 @@ $page    = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 10;
 $offset  = ($page - 1) * $perPage;
 
-$allowedActions = ['LOGIN', 'LOGOUT', 'CREATE', 'UPDATE', 'DELETE'];
+$allowedActions = ['LOGIN', 'LOGOUT', 'VIEW', 'OPEN', 'SUBMIT', 'CREATE', 'UPDATE', 'DELETE'];
 if (!in_array($actionF, $allowedActions)) {
     $actionF = '';
 }
