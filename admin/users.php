@@ -187,7 +187,7 @@ $roles = $conn->query("SELECT * FROM roles ORDER BY roleId")->fetch_all(MYSQLI_A
 function sortLink(string $col, string $label, string $curSort, string $curDir, array $qp): string {
     $newDir = ($curSort === $col && $curDir === 'ASC') ? 'DESC' : 'ASC';
     $arrow  = '';
-    if ($curSort === $col) $arrow = $curDir === 'ASC' ? ' ▲' : ' ▼';
+    if ($curSort === $col) $arrow = $curDir === 'ASC' ? ' asc' : ' desc';
     $qp['sort'] = $col; $qp['dir'] = $newDir; unset($qp['page']);
     return '<a href="?' . http_build_query($qp) . '">' . htmlspecialchars($label) . $arrow . '</a>';
 }
@@ -199,11 +199,11 @@ $qp = compact('search') + ['role'=>$roleF,'status'=>$statusF,'sort'=>$sort,'dir'
 <div class="card" style="margin-bottom:20px;">
     <div class="card-header">
         <h2>User Accounts <span style="font-weight:400;color:var(--neutral-500);font-size:13px;">(<?= $totalRows ?> total)</span></h2>
-        <button class="btn btn-primary btn-sm" onclick="openModal('modal-create')">+ Add User</button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-create')"><?= appIcon('plus') ?>Add User</button>
     </div>
     <div class="card-body" style="padding-bottom:14px;">
         <form method="GET" action="<?= appUrl('/admin/users.php') ?>" class="filter-bar">
-            <input type="text" name="search" class="form-control search-input" placeholder="Search username…" value="<?= htmlspecialchars($search) ?>">
+            <input type="text" name="search" class="form-control search-input" placeholder="Search username..." value="<?= htmlspecialchars($search) ?>">
             <select name="role" class="form-control">
                 <option value="">All Roles</option>
                 <?php foreach ($roles as $rl): ?>
@@ -242,7 +242,7 @@ $qp = compact('search') + ['role'=>$roleF,'status'=>$statusF,'sort'=>$sort,'dir'
             <?php if ($users->num_rows === 0): ?>
                 <tr><td colspan="5">
                     <div class="empty-state">
-                        <div class="empty-icon">👥</div>
+                        <div class="empty-icon"><?= appIcon('users') ?></div>
                         <h3>No users found</h3>
                         <p>Try adjusting your filters or add a new user.</p>
                     </div>
@@ -306,7 +306,7 @@ $qp = compact('search') + ['role'=>$roleF,'status'=>$statusF,'sort'=>$sort,'dir'
     <div class="modal">
         <div class="modal-header">
             <h3>Add New User</h3>
-            <button class="modal-close" onclick="closeModal('modal-create')">×</button>
+            <button type="button" class="modal-close" onclick="closeModal('modal-create')" aria-label="Close"><?= appIcon('close') ?></button>
         </div>
         <form method="POST" action="<?= appUrl('/admin/users.php') ?>">
             <input type="hidden" name="action" value="create">
@@ -353,7 +353,7 @@ $qp = compact('search') + ['role'=>$roleF,'status'=>$statusF,'sort'=>$sort,'dir'
     <div class="modal">
         <div class="modal-header">
             <h3>Edit User</h3>
-            <a href="<?= appUrl('/admin/users.php') ?>" class="modal-close">x</a>
+            <a href="<?= appUrl('/admin/users.php') ?>" class="modal-close" aria-label="Close"><?= appIcon('close') ?></a>
         </div>
         <form method="POST" action="<?= appUrl('/admin/users.php') ?>">
             <input type="hidden" name="action" value="update">

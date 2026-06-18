@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/brand.php';
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/icons.php';
 
 requireLogin();
 
@@ -87,27 +89,31 @@ $submissionStmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - Survey System</title>
+    <title>User Dashboard - <?= APP_NAME ?></title>
     <link rel="stylesheet" href="<?= appUrl('/assets/style.css') ?>">
 </head>
 <body>
 <div class="admin-shell" style="min-height:100vh;">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h1>Feedback &amp; Survey</h1>
-            <span>User Portal</span>
+            <a href="<?= appUrl('/user/dashboard.php') ?>" class="brand-logo-link" aria-label="<?= APP_NAME ?>">
+                <?= appLogo('app-logo sidebar-logo') ?>
+            </a>
         </div>
         <nav class="sidebar-nav">
-            <a href="<?= appUrl('/user/dashboard.php') ?>" class="active"><span class="nav-icon">#</span>Dashboard</a>
-            <a href="<?= appUrl('/public/take_survey.php') ?>"><span class="nav-icon">S</span>Take Survey</a>
+            <a href="<?= appUrl('/user/dashboard.php') ?>" class="active"><span class="nav-icon"><?= appIcon('dashboard') ?></span>Dashboard</a>
+            <a href="<?= appUrl('/public/take_survey.php') ?>"><span class="nav-icon"><?= appIcon('survey') ?></span>Take Survey</a>
         </nav>
         <div class="sidebar-footer">
-            <a href="<?= appUrl('/logout.php') ?>">Sign out</a>
+            <a href="<?= appUrl('/logout.php') ?>"><span class="nav-icon"><?= appIcon('logout') ?></span>Sign out</a>
         </div>
     </aside>
 
     <div class="main-wrap">
         <div class="topbar">
+            <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Toggle navigation">
+                <?= appIcon('menu') ?>
+            </button>
             <span class="topbar-title">User Dashboard</span>
             <div class="topbar-user">
                 <div class="topbar-avatar"><?= strtoupper(substr(currentUserName(), 0, 1)) ?></div>
@@ -275,5 +281,6 @@ $submissionStmt->close();
         </div>
     </div>
 </div>
+<script src="<?= appUrl('/assets/admin.js') ?>"></script>
 </body>
 </html>

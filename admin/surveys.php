@@ -164,7 +164,7 @@ $qp = ['search'=>$search,'sort'=>$sort,'dir'=>$dir];
 
 function sortLink2(string $col, string $label, string $cs, string $cd, array $qp): string {
     $nd = ($cs===$col && $cd==='ASC') ? 'DESC' : 'ASC';
-    $arrow = $cs===$col ? ($cd==='ASC' ? ' ▲' : ' ▼') : '';
+    $arrow = $cs===$col ? ($cd==='ASC' ? ' asc' : ' desc') : '';
     $qp['sort']=$col; $qp['dir']=$nd; unset($qp['page']);
     return '<a href="?'.http_build_query($qp).'">'.htmlspecialchars($label).$arrow.'</a>';
 }
@@ -173,11 +173,11 @@ function sortLink2(string $col, string $label, string $cs, string $cd, array $qp
 <div class="card" style="margin-bottom:20px;">
     <div class="card-header">
         <h2>Surveys <span style="font-weight:400;color:var(--neutral-500);font-size:13px;">(<?= $totalRows ?> total)</span></h2>
-        <button class="btn btn-primary btn-sm" onclick="openModal('modal-create')">+ New Survey</button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-create')"><?= appIcon('plus') ?>New Survey</button>
     </div>
     <div class="card-body" style="padding-bottom:14px;">
         <form method="GET" class="filter-bar">
-            <input type="text" name="search" class="form-control search-input" placeholder="Search surveys…" value="<?= htmlspecialchars($search) ?>">
+            <input type="text" name="search" class="form-control search-input" placeholder="Search surveys..." value="<?= htmlspecialchars($search) ?>">
             <button type="submit" class="btn btn-outline">Search</button>
             <a href="<?= appUrl('/admin/surveys.php') ?>" class="btn btn-outline">Reset</a>
         </form>
@@ -208,10 +208,10 @@ function sortLink2(string $col, string $label, string $cs, string $cd, array $qp
             <?php if ($surveys->num_rows === 0): ?>
                 <tr><td colspan="9">
                     <div class="empty-state">
-                        <div class="empty-icon">📋</div>
+                        <div class="empty-icon"><?= appIcon('survey') ?></div>
                         <h3>No surveys yet</h3>
                         <p>Create your first survey to get started.</p>
-                        <button class="btn btn-primary" onclick="openModal('modal-create')">+ New Survey</button>
+                        <button class="btn btn-primary" onclick="openModal('modal-create')"><?= appIcon('plus') ?>New Survey</button>
                     </div>
                 </td></tr>
             <?php else: ?>
@@ -221,7 +221,7 @@ function sortLink2(string $col, string $label, string $cs, string $cd, array $qp
                     <td>
                         <strong><?= htmlspecialchars($s['title']) ?></strong>
                         <?php if ($s['description']): ?>
-                            <div style="font-size:12px;color:var(--neutral-500);margin-top:2px;"><?= htmlspecialchars(mb_substr($s['description'],0,60)) ?>…</div>
+                            <div style="font-size:12px;color:var(--neutral-500);margin-top:2px;"><?= htmlspecialchars(mb_substr($s['description'],0,60)) ?>...</div>
                         <?php endif; ?>
                     </td>
                     <td><?= htmlspecialchars($s['userName']) ?></td>
@@ -272,7 +272,7 @@ function sortLink2(string $col, string $label, string $cs, string $cd, array $qp
     <div class="modal">
         <div class="modal-header">
             <h3>New Survey</h3>
-            <button class="modal-close" onclick="closeModal('modal-create')">×</button>
+            <button type="button" class="modal-close" onclick="closeModal('modal-create')" aria-label="Close"><?= appIcon('close') ?></button>
         </div>
         <form method="POST">
             <input type="hidden" name="action" value="create">
@@ -308,7 +308,7 @@ function sortLink2(string $col, string $label, string $cs, string $cd, array $qp
     <div class="modal">
         <div class="modal-header">
             <h3>Edit Survey</h3>
-            <a href="<?= appUrl('/admin/surveys.php') ?>" class="modal-close">x</a>
+            <a href="<?= appUrl('/admin/surveys.php') ?>" class="modal-close" aria-label="Close"><?= appIcon('close') ?></a>
         </div>
         <form method="POST">
             <input type="hidden" name="action" value="update">

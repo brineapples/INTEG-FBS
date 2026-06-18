@@ -1,8 +1,18 @@
 <?php
-$conn = new mysqli("localhost", "root", "cyruz.gaton9", "survey");
+$config = require __DIR__ . '/config.php';
+
+$conn = new mysqli(
+    $config['db_host'],
+    $config['db_user'],
+    $config['db_pass'],
+    $config['db_name']
+);
 
 if ($conn->connect_error) {
-    die("Database connection failed. Please make sure MySQL is running in XAMPP and the survey database has been imported.");
+    die(
+        'Database connection failed: ' . htmlspecialchars($conn->connect_error) .
+        '. Check your WAMP MySQL credentials and ensure the survey database has been imported.'
+    );
 }
 
 function columnExists(mysqli $conn, string $table, string $column): bool {

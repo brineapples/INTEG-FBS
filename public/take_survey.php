@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/brand.php';
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/icons.php';
 
 $token = trim($_GET['token'] ?? '');
 $survey = null;
@@ -191,12 +193,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $survey) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $survey ? htmlspecialchars($survey['title']) : 'Survey Browser' ?></title>
+    <title><?= $survey ? htmlspecialchars($survey['title']) . ' - ' . APP_NAME : 'Survey Browser - ' . APP_NAME ?></title>
     <link rel="stylesheet" href="<?= appUrl('/assets/style.css') ?>">
 </head>
 <body>
 <div class="survey-page">
     <div class="survey-header">
+        <div class="survey-brand"><?= appLogo('app-logo survey-logo-img') ?></div>
         <h1>
             <?php if ($survey): ?>
                 <?= htmlspecialchars($survey['title']) ?>
@@ -251,7 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $survey) {
                                             <td><?= (int)$row['questionCount'] ?></td>
                                             <td><?= (int)$row['responseCount'] ?></td>
                                             <td style="white-space:nowrap;">
-                                                <a href="<?= appUrl('/public/take_survey.php?token=' . urlencode($row['shareToken'])) ?>" class="btn btn-primary btn-xs">Open</a>
+                                                <a href="<?= appUrl('/public/take_survey.php?token=' . urlencode($row['shareToken'])) ?>" class="btn btn-primary btn-xs"><?= appIcon('survey') ?>Open</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -274,7 +277,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $survey) {
             <div class="card"><div class="card-body">This survey link is invalid or no longer available. <a href="<?= appUrl('/public/take_survey.php') ?>">Browse surveys</a>.</div></div>
         <?php elseif ($submitted): ?>
             <div class="survey-success">
-                <div class="check-icon">OK</div>
+                <div class="check-icon"><?= appIcon('check') ?></div>
                 <h2>Thank you</h2>
                 <p>Your response has been submitted.</p>
             </div>
@@ -333,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $survey) {
                 <?php endforeach; ?>
                 <div class="survey-submit-bar">
                     <span><?= count($questions) ?> question(s)</span>
-                    <button type="submit" class="btn btn-primary">Submit Response</button>
+                    <button type="submit" class="btn btn-primary"><?= appIcon('check') ?>Submit Response</button>
                 </div>
             </form>
         <?php endif; ?>

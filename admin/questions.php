@@ -195,7 +195,7 @@ $questionColspan = $filterSurveyId ? 6 : 7;
 
 function sortLink3(string $col, string $label, string $cs, string $cd, array $qp): string {
     $nd = ($cs===$col&&$cd==='ASC')?'DESC':'ASC';
-    $a = $cs===$col?($cd==='ASC'?' ▲':' ▼'):'';
+    $a = $cs===$col ? ($cd==='ASC' ? ' asc' : ' desc') : '';
     $qp['sort']=$col;$qp['dir']=$nd;unset($qp['page']);
     return '<a href="?'.http_build_query($qp).'">'.htmlspecialchars($label).$a.'</a>';
 }
@@ -214,7 +214,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
             <?php if ($filterSurveyId): ?>
                 <a href="<?= appUrl('/admin/surveys.php') ?>" class="btn btn-outline btn-sm">Back to Surveys</a>
             <?php endif; ?>
-            <button class="btn btn-primary btn-sm" onclick="openModal('modal-create')">+ Add Question</button>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-create')"><?= appIcon('plus') ?>Add Question</button>
         </div>
     </div>
     <div class="card-body" style="padding-bottom:14px;">
@@ -222,7 +222,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
             <?php if ($filterSurveyId): ?>
                 <input type="hidden" name="surveyId" value="<?= $filterSurveyId ?>">
             <?php endif; ?>
-            <input type="text" name="search" class="form-control search-input" placeholder="Search questions…" value="<?= htmlspecialchars($search) ?>">
+            <input type="text" name="search" class="form-control search-input" placeholder="Search questions..." value="<?= htmlspecialchars($search) ?>">
             <?php if (!$filterSurveyId): ?>
             <select name="surveyId" class="form-control">
                 <option value="">All Surveys</option>
@@ -267,10 +267,10 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
             <?php if ($questions->num_rows === 0): ?>
                 <tr><td colspan="<?= $questionColspan ?>">
                     <div class="empty-state">
-                        <div class="empty-icon">❓</div>
+                        <div class="empty-icon"><?= appIcon('questions') ?></div>
                         <h3>No questions found</h3>
                         <p>Add your first question to this survey.</p>
-                        <button class="btn btn-primary" onclick="openModal('modal-create')">+ Add Question</button>
+                        <button class="btn btn-primary" onclick="openModal('modal-create')"><?= appIcon('plus') ?>Add Question</button>
                     </div>
                 </td></tr>
             <?php else: ?>
@@ -280,7 +280,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
                     <td><?= htmlspecialchars($q['question']) ?></td>
                     <td>
                         <?php
-                        $typeLabel = ['text'=>'Text','rating'=>'Rating (1–5)','mcq'=>'Multiple Choice'];
+                        $typeLabel = ['text'=>'Text','rating'=>'Rating (1-5)','mcq'=>'Multiple Choice'];
                         $typeCss   = ['text'=>'badge-user','rating'=>'badge-warning','mcq'=>'badge-admin'];
                         ?>
                         <span class="badge <?= $typeCss[$q['questionType']] ?? 'badge-user' ?>">
@@ -295,7 +295,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
                     <?php if (!$filterSurveyId): ?>
                     <td><?= htmlspecialchars($q['surveyTitle']) ?></td>
                     <?php endif; ?>
-                    <td><?= $q['questionType']==='mcq' ? $q['optionCount'].' opts' : '—' ?></td>
+                    <td><?= $q['questionType']==='mcq' ? $q['optionCount'].' opts' : '-' ?></td>
                     <td>
                         <div class="td-actions">
                             <a href="?edit=<?= $q['questionId'] ?>&<?= http_build_query($qp) ?>" class="btn btn-outline btn-xs">Edit</a>
@@ -332,7 +332,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
     <div class="modal" style="max-width:600px;">
         <div class="modal-header">
             <h3>Add Question</h3>
-            <button class="modal-close" onclick="closeModal('modal-create')">×</button>
+            <button type="button" class="modal-close" onclick="closeModal('modal-create')" aria-label="Close"><?= appIcon('close') ?></button>
         </div>
         <form method="POST">
             <input type="hidden" name="action" value="create">
@@ -340,7 +340,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
                 <div class="form-group">
                     <label class="form-label">Survey *</label>
                     <select name="surveyId" class="form-control" required>
-                        <option value="">— select a survey —</option>
+                        <option value="">-- select a survey --</option>
                         <?php foreach ($allSurveys as $sv): ?>
                             <option value="<?= $sv['surveyId'] ?>"
                                 <?= ($filterSurveyId==$sv['surveyId']||($_POST['surveyId']??'')==$sv['surveyId'])?'selected':'' ?>>
@@ -358,7 +358,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
                     <label class="form-label">Question Type *</label>
                     <select id="questionType" name="questionType" class="form-control" required>
                         <option value="text"   <?= ($_POST['questionType']??'')==='text'  ?'selected':''?>>Text (open-ended)</option>
-                        <option value="rating" <?= ($_POST['questionType']??'')==='rating'?'selected':''?>>Rating (1–5)</option>
+                        <option value="rating" <?= ($_POST['questionType']??'')==='rating'?'selected':''?>>Rating (1-5)</option>
                         <option value="mcq"    <?= ($_POST['questionType']??'')==='mcq'   ?'selected':''?>>Multiple Choice</option>
                     </select>
                 </div>
@@ -372,7 +372,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
                     <div class="form-group">
                         <label class="form-label">Answer Options</label>
                         <div id="options-container"></div>
-                        <button type="button" class="btn btn-outline btn-sm" onclick="addOption()" style="margin-top:8px;">+ Add Option</button>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="addOption()" style="margin-top:8px;"><?= appIcon('plus') ?>Add Option</button>
                         <div class="form-hint">Add at least 2 options for Multiple Choice questions.</div>
                     </div>
                 </div>
@@ -391,7 +391,7 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
     <div class="modal" style="max-width:600px;">
         <div class="modal-header">
             <h3>Edit Question</h3>
-            <a href="<?= appUrl('/admin/questions.php?' . http_build_query($qp)) ?>" class="modal-close">x</a>
+            <a href="<?= appUrl('/admin/questions.php?' . http_build_query($qp)) ?>" class="modal-close" aria-label="Close"><?= appIcon('close') ?></a>
         </div>
         <form method="POST">
             <input type="hidden" name="action" value="update">
@@ -419,11 +419,11 @@ function sortLink3(string $col, string $label, string $cs, string $cd, array $qp
                         <?php foreach ($editOptions as $opt): ?>
                         <div class="option-row" style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
                             <input type="text" name="options[]" class="form-control" value="<?= htmlspecialchars($opt) ?>" required>
-                            <button type="button" onclick="this.parentElement.remove()" class="btn btn-danger btn-sm">✕</button>
+                            <button type="button" onclick="this.parentElement.remove()" class="btn btn-danger btn-sm" aria-label="Remove option"><?= appIcon('close') ?></button>
                         </div>
                         <?php endforeach; ?>
                     </div>
-                    <button type="button" class="btn btn-outline btn-sm" onclick="addOption()" style="margin-top:8px;">+ Add Option</button>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="addOption()" style="margin-top:8px;"><?= appIcon('plus') ?>Add Option</button>
                 </div>
                 <?php endif; ?>
             </div>
