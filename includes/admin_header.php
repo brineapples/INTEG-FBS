@@ -48,10 +48,17 @@ function navLink(string $href, string $icon, string $label, string $current): st
 
     <div class="main-wrap">
         <div class="topbar">
-            <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Toggle navigation">
-                <?= appIcon('menu') ?>
-            </button>
-            <span class="topbar-title"><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Dashboard' ?></span>
+            <div class="topbar-left">
+                <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Toggle navigation">
+                    <?= appIcon('menu') ?>
+                </button>
+                <?php if ($currentPage !== 'dashboard.php'): ?>
+                    <a href="<?= appUrl('/admin/dashboard.php') ?>" class="btn btn-outline btn-sm topbar-back">
+                        <?= appIcon('chevron-left') ?>Back
+                    </a>
+                <?php endif; ?>
+                <span class="topbar-title"><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Dashboard' ?></span>
+            </div>
             <div class="topbar-user">
                 <div class="topbar-avatar"><?= strtoupper(substr(currentUserName(), 0, 1)) ?></div>
                 <?= currentUserName() ?>

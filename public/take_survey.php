@@ -217,6 +217,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $survey) {
     </div>
     <div class="survey-body">
         <?php if (!$survey && $token === ''): ?>
+            <div style="display:flex;justify-content:flex-start;margin-bottom:18px;">
+                <a href="<?= isLoggedIn() ? appUrl('/user/dashboard.php') : appUrl('/login.php') ?>" class="btn btn-outline">
+                    <?= appIcon('chevron-left') ?>Back
+                </a>
+            </div>
             <div class="card">
                 <div class="card-body">
                     <div class="table-wrap">
@@ -274,15 +279,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $survey) {
                 </div>
             </div>
         <?php elseif (!$survey): ?>
+            <div style="display:flex;justify-content:flex-start;margin-bottom:18px;">
+                <a href="<?= appUrl('/public/take_survey.php') ?>" class="btn btn-outline">
+                    <?= appIcon('chevron-left') ?>Back to Surveys
+                </a>
+            </div>
             <div class="card"><div class="card-body">This survey link is invalid or no longer available. <a href="<?= appUrl('/public/take_survey.php') ?>">Browse surveys</a>.</div></div>
         <?php elseif ($submitted): ?>
             <div class="survey-success">
                 <div class="check-icon"><?= appIcon('check') ?></div>
                 <h2>Thank you</h2>
                 <p>Your response has been submitted.</p>
+                <div style="margin-top:20px;">
+                    <a href="<?= appUrl('/public/take_survey.php') ?>" class="btn btn-outline"><?= appIcon('chevron-left') ?>Back to Surveys</a>
+                </div>
             </div>
         <?php else: ?>
             <?php if ($error): ?><div class="flash flash-error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+            <div style="display:flex;justify-content:flex-start;margin-bottom:18px;">
+                <a href="<?= appUrl('/public/take_survey.php') ?>" class="btn btn-outline">
+                    <?= appIcon('chevron-left') ?>Back to Surveys
+                </a>
+            </div>
             <form method="POST">
                 <?php foreach ($questions as $index => $question): ?>
                     <div class="question-card">

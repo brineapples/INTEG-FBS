@@ -318,11 +318,22 @@ code {
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 
-.topbar-title {
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
   flex: 1;
+}
+
+.topbar-title {
   color: var(--cream);
   font-size: 22px;
   font-weight: 900;
+}
+
+.topbar-back {
+  flex: 0 0 auto;
 }
 
 .topbar-user {
@@ -1334,6 +1345,10 @@ input[type="radio"] {
 @media (max-width: 760px) {
   .topbar-title {
     font-size: 18px;
+  }
+
+  .topbar-left {
+    gap: 10px;
   }
 
   .topbar-user {
